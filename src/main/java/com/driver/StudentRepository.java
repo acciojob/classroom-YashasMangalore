@@ -45,24 +45,14 @@ public class StudentRepository {
             teacherStudentMapping.put(teacher,students);
         }
     }
-
     public Student findStudent(String studentName)
     {
-        // your code goes here
-        if(studentMap.containsKey(studentName))
-        {
-            return studentMap.get(studentName);
-        }
-        return null;
+        return studentMap.getOrDefault(studentName, null);
     }
 
-    public Teacher findTeacher(String teacherName){
-        // your code goes here
-        if(teacherMap.containsKey(teacherName))
-        {
-            return teacherMap.get(teacherName);
-        }
-        return null;
+    public Teacher findTeacher(String teacherName)
+    {
+        return teacherMap.getOrDefault(teacherName, null);
     }
 
     public List<String> findStudentsFromTeacher(String teacher)
@@ -71,19 +61,9 @@ public class StudentRepository {
         return teacherStudentMapping.getOrDefault(teacher,new ArrayList<>());
     }
 
-    public List<String> findAllStudents(){
+    public List<String> findAllStudents()
+    {
         // your code goes here
-        //        List<String> students=new ArrayList<>();
-//        students.addAll(studentMap.keySet());  --OR--
-//        for(String studentName:studentMap.keySet())
-//        {
-//            students.add(studentName);
-//        }
-//        if(!studentMap.isEmpty())
-//        {
-//            return new ArrayList<>(studentMap.keySet());
-//        }
-//        return new ArrayList<>();
         return !studentMap.isEmpty() ? new ArrayList<>(studentMap.keySet()) : new ArrayList<>();
     }
 
@@ -97,8 +77,7 @@ public class StudentRepository {
     }
 
     public void deleteAllTeachers()
-    {
-        // your code goes here
+    {// your code goes here
         if(!teacherMap.isEmpty())
         {
             teacherMap.clear();
