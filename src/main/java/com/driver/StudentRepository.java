@@ -17,42 +17,75 @@ public class StudentRepository {
         this.teacherStudentMapping = new HashMap<String, List<String>>();
     }
 
-    public void saveStudent(Student student){
-        // your code goes here
+    public void saveStudent(Student student)
+    {// your code goes here
+        studentMap.put(student.getName(),student);
     }
 
     public void saveTeacher(Teacher teacher){
         // your code goes here
+        teacherMap.put(teacher.getName(),teacher);
     }
 
-    public void saveStudentTeacherPair(String student, String teacher){
-        if(studentMap.containsKey(student) && teacherMap.containsKey(teacher)){
-            // your code goes here
+    public void saveStudentTeacherPair(String student, String teacher)
+    {
+        if(studentMap.containsKey(student) && teacherMap.containsKey(teacher))
+        {// your code goes here
+            //get all students
+            List<String> students = teacherStudentMapping.getOrDefault(teacher, new ArrayList<>());
+            //add students
+            students.add(student);
+            //update
+            teacherStudentMapping.put(teacher,students);
         }
     }
 
-    public Student findStudent(String student){
+    public Student findStudent(String studentName)
+    {
         // your code goes here
+        if(studentMap.containsKey(studentName))
+        {
+            return studentMap.get(studentName);
+        }
+        return null;
     }
 
-    public Teacher findTeacher(String teacher){
+    public Teacher findTeacher(String teacherName){
         // your code goes here
+        if(teacherMap.containsKey(teacherName))
+        {
+            return teacherMap.get(teacherName);
+        }
+        return null;
     }
 
-    public List<String> findStudentsFromTeacher(String teacher){
+    public List<String> findStudentsFromTeacher(String teacher)
+    {
         // your code goes here
         // find student list corresponding to a teacher
+        return teacherStudentMapping.get(teacher);
     }
 
     public List<String> findAllStudents(){
         // your code goes here
+        //        List<String> students=new ArrayList<>();
+//        students.addAll(studentMap.keySet());  --OR--
+//        for(String studentName:studentMap.keySet())
+//        {
+//            students.add(studentName);
+//        }
+        return new ArrayList<>(studentMap.keySet());
     }
 
-    public void deleteTeacher(String teacher){
+    public void deleteTeacher(String teacher)
+    {
         // your code goes here
+        teacherMap.remove(teacher);
     }
 
-    public void deleteAllTeachers(){
+    public void deleteAllTeachers()
+    {
         // your code goes here
+        teacherMap.clear();
     }
 }
