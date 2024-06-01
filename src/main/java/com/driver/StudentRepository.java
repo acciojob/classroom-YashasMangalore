@@ -19,7 +19,7 @@ public class StudentRepository {
 
     public void saveStudent(Student student)
     {// your code goes here
-        if (student != null && student.getName() != null)
+        if (student != null && !studentMap.containsKey(student.getName()))
         {
             studentMap.put(student.getName(), student);
         }
@@ -27,7 +27,7 @@ public class StudentRepository {
 
     public void saveTeacher(Teacher teacher){
         // your code goes here
-        if(teacher!=null && teacher.getName()!=null)
+        if(teacher!=null && !teacherMap.containsKey(teacher.getName()))
         {
             teacherMap.put(teacher.getName(),teacher);
         }
@@ -35,7 +35,7 @@ public class StudentRepository {
 
     public void saveStudentTeacherPair(String student, String teacher)
     {
-        if(student != null && teacher != null && studentMap.containsKey(student) && teacherMap.containsKey(teacher))
+        if( studentMap.containsKey(student) && teacherMap.containsKey(teacher))
         {// your code goes here
             //get all students
             List<String> students = teacherStudentMapping.getOrDefault(teacher, new ArrayList<>());
@@ -70,17 +70,25 @@ public class StudentRepository {
     public void deleteTeacher(String teacher)
     {
         // your code goes here
-        if(teacherMap.containsKey(teacher))
+        teacherMap.remove(teacher);
+        for(String student:teacherStudentMapping.get(teacher))
         {
-            teacherMap.remove(teacher);
+            studentMap.remove(student);
         }
+        teacherStudentMapping.remove(teacher);
     }
 
     public void deleteAllTeachers()
     {// your code goes here
-        if(!teacherMap.isEmpty())
+        teacherMap.clear();
+        for(String teacher : teacherStudentMapping.keySet())
         {
-            teacherMap.clear();
+            for(String student:teacherStudentMapping.get(teacher))
+            {
+                studentMap.remove(student);
+            }
+
         }
+        teacherStudentMapping.clear();
     }
 }
