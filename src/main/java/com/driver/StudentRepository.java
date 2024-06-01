@@ -19,17 +19,23 @@ public class StudentRepository {
 
     public void saveStudent(Student student)
     {// your code goes here
-        studentMap.put(student.getName(),student);
+        if (student != null && student.getName() != null)
+        {
+            studentMap.put(student.getName(), student);
+        }
     }
 
     public void saveTeacher(Teacher teacher){
         // your code goes here
-        teacherMap.put(teacher.getName(),teacher);
+        if(teacher!=null && teacher.getName()!=null)
+        {
+            teacherMap.put(teacher.getName(),teacher);
+        }
     }
 
     public void saveStudentTeacherPair(String student, String teacher)
     {
-        if(studentMap.containsKey(student) && teacherMap.containsKey(teacher))
+        if(student != null && teacher != null && studentMap.containsKey(student) && teacherMap.containsKey(teacher))
         {// your code goes here
             //get all students
             List<String> students = teacherStudentMapping.getOrDefault(teacher, new ArrayList<>());
@@ -60,10 +66,9 @@ public class StudentRepository {
     }
 
     public List<String> findStudentsFromTeacher(String teacher)
-    {
-        // your code goes here
+    {// your code goes here
         // find student list corresponding to a teacher
-        return teacherStudentMapping.get(teacher);
+        return teacherStudentMapping.getOrDefault(teacher,new ArrayList<>());
     }
 
     public List<String> findAllStudents(){
@@ -74,18 +79,29 @@ public class StudentRepository {
 //        {
 //            students.add(studentName);
 //        }
-        return new ArrayList<>(studentMap.keySet());
+//        if(!studentMap.isEmpty())
+//        {
+//            return new ArrayList<>(studentMap.keySet());
+//        }
+//        return new ArrayList<>();
+        return !studentMap.isEmpty() ? new ArrayList<>(studentMap.keySet()) : new ArrayList<>();
     }
 
     public void deleteTeacher(String teacher)
     {
         // your code goes here
-        teacherMap.remove(teacher);
+        if(teacherMap.containsKey(teacher))
+        {
+            teacherMap.remove(teacher);
+        }
     }
 
     public void deleteAllTeachers()
     {
         // your code goes here
-        teacherMap.clear();
+        if(!teacherMap.isEmpty())
+        {
+            teacherMap.clear();
+        }
     }
 }
